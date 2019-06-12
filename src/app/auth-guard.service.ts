@@ -13,16 +13,35 @@ export class AuthGuard implements CanActivate {
 
   canActivate() {
     const token = sessionStorage.getItem('token');
+    let isUser = false;
+    
+    try {
+      const decodedToken = this.helper.decodeToken(token);
+      const type = decodedToken.type;
+      
+      if (type === "1") {
+        isUser = true;
+      } else {
+        isUser = false;
+      }
+    } catch (error) {
+      isUser = false;
+    }
+
     if (token) {
-      console.log(this.helper.isTokenExpired(token));
       if (this.helper.isTokenExpired(token)) {
         this.router.navigate(['login']);
         return false;
       } else {
-        return true;
+        if (isUser) {
+          return true;
+        } else {
+          // this.router.navigate(['access-denied']);
+          return false;
+        }
       }
     } else {
-      this.router.navigate(['login']);
+      // this.router.navigate(['login']);
       return false;
     }
   }

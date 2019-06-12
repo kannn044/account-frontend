@@ -16,13 +16,12 @@ export class AdminGuard implements CanActivate {
   canActivate() {
     const token = sessionStorage.getItem('token');
     let isAdmin = false;
-    ////////// select admin
+    
     try {
       const decodedToken = this.helper.decodeToken(token);
-      const accessRight = decodedToken.accessRight;
-      const rights = accessRight.split(',');
+      const type = decodedToken.type;
       
-      if (_.indexOf(rights, 'WM_ADMIN') > -1) {
+      if (type === "2") {
         isAdmin = true;
       } else {
         isAdmin = false;
@@ -39,12 +38,12 @@ export class AdminGuard implements CanActivate {
         if (isAdmin) {
           return true;
         } else {
-          this.router.navigate(['access-denied']);
+          // this.router.navigate(['access-denied']);
           return false;
         }
       }
     } else {
-      this.router.navigate(['login']);
+      // this.router.navigate(['login']);
       return false;
     }
   }

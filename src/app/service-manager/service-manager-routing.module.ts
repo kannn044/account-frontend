@@ -5,13 +5,14 @@ import { LayoutComponent } from './layout/layout.component';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { TechniciansComponent } from './technicians/technicians.component';
 import { CustomersComponent } from './customers/customers.component';
-import { AuthGuard } from '../auth-guard.service';
+// import { AuthGuard } from '../auth-guard.service';
+import { AdminGuard } from '../admin-guard';
 
 const routes: Routes = [
   {
     path: 'sm',
     component: LayoutComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AdminGuard],
     children: [
       { path: '', redirectTo: 'main', pathMatch: 'full' },
       { path: 'main', component: MainComponent },

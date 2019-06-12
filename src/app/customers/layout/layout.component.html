@@ -3,7 +3,7 @@
     <div class="branding">
       <a href="javascript://" class="nav-link">
         <img src="./assets/images/moph_logo.png" alt="moph_logo" style="width: 64px; padding-right: 10px;">
-        <span class="title">ระบบงานแจ้งซ่อมออนไลน์ (Service Manager)</span>
+        <span class="title">ระบบพิมพ์สลิปเงินเดือน</span>
       </a>
     </div>
     <div class="header-actions">
@@ -14,7 +14,7 @@
         </button>
         <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
           <a href="javascript://" clrDropdownItem>เปลี่ยนรหัสผ่าน</a>
-          <a href="javascript://" clrDropdownItem>ออกจากโปรแกรม</a>
+          <a (click)="logout()" href="javascript://" clrDropdownItem>ออกจากโปรแกรม</a>
         </clr-dropdown-menu>
       </clr-dropdown>
     </div>

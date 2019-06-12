@@ -8,6 +8,9 @@ import { LayoutComponent } from './layout/layout.component';
 import { ClarityModule } from '../../../node_modules/@clr/angular';
 import { TechniciansComponent } from './technicians/technicians.component';
 import { CustomersComponent } from './customers/customers.component';
+import { AdminGuard } from '../admin-guard';
+import { UsersService } from './users.service';
+import { AlertService } from './alert.service';
 
 @NgModule({
   imports: [
@@ -16,6 +19,16 @@ import { CustomersComponent } from './customers/customers.component';
     ClarityModule,
     ServiceManagerRoutingModule
   ],
-  declarations: [MainComponent, LayoutComponent, TechniciansComponent, CustomersComponent]
+  declarations: [
+    MainComponent, 
+    LayoutComponent, 
+    TechniciansComponent, 
+    CustomersComponent
+  ],
+  providers: [
+    AdminGuard,
+    UsersService,
+    AlertService
+  ]
 })
 export class ServiceManagerModule { }

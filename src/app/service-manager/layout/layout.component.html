@@ -2,19 +2,19 @@
   <header class="header">
     <div class="branding">
       <a href="javascript://" class="nav-link">
-        <img src="./assets/images/moph_logo.png" alt="moph_logo" style="width: 64px; padding-right: 10px;">
-        <span class="title">ระบบงานแจ้งซ่อมออนไลน์ (Service Manager)</span>
+        <!-- <img src="./assets/images/moph_logo.png" alt="moph_logo" style="width: 64px; padding-right: 10px;"> -->
+        <span class="title">ระบบพิมพ์สลิปเงินเดือน</span>
       </a>
     </div>
     <div class="header-actions">
       <clr-dropdown>
         <button class="nav-text" clrDropdownTrigger>
-          rianpit@gmail.com
+          {{fullname}}
           <clr-icon shape="caret down"></clr-icon>
         </button>
         <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
           <a href="javascript://" clrDropdownItem>เปลี่ยนรหัสผ่าน</a>
-          <a href="javascript://" clrDropdownItem>ออกจากโปรแกรม</a>
+          <a (click)="logout()" href="javascript://" clrDropdownItem>ออกจากโปรแกรม</a>
         </clr-dropdown-menu>
       </clr-dropdown>
     </div>
@@ -37,11 +37,7 @@
         <clr-vertical-nav-group-children *clrIfExpanded="false">
           <a clrVerticalNavLink routerLink="/sm/technicians" routerLinkActive="active">
             <clr-icon shape="library"></clr-icon>
-            ข้อมูลช่างซ่อมบำรุง
-          </a>
-          <a clrVerticalNavLink routerLink="/sm/customers" routerLinkActive="active">
-            <clr-icon shape="library"></clr-icon>
-            ข้อมูลเจ้าหน้าที่
+            ข้อมูลผู้ใช้
           </a>
         </clr-vertical-nav-group-children>
       </clr-vertical-nav-group>

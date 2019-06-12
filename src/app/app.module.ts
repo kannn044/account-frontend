@@ -14,6 +14,7 @@ import { AuthModule } from './auth/auth.module';
 import { AuthGuard } from './auth-guard.service';
 import { HttpClientModule } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
+import { environment } from 'src/environments/environment';
 
 export function tokenGetter() {
   return sessionStorage.getItem('token');
@@ -35,9 +36,10 @@ export function tokenGetter() {
     CustomersModule,
   ],
   providers: [
-    { provide: 'API_URL', useValue: 'http://localhost:3000' },
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    { provide: 'API_URL', useValue: environment.apiUrl },
+    { provide: 'HOME_URL', useValue: environment.homeUrl },
     AuthGuard,
-    { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent]
 })

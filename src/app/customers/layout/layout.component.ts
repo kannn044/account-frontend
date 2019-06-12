@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 
 @Component({
   selector: 'app-layout',
@@ -9,9 +9,16 @@ export class LayoutComponent implements OnInit {
   collapsible = true;
   collapse = true;
 
-  constructor() { }
+  constructor(
+    @Inject('HOME_URL') private homeUrl: string,
+  ) { }
 
   ngOnInit() {
+  }
+
+  logout(){
+    sessionStorage.removeItem('token');
+    location.href = this.homeUrl;
   }
 
 }

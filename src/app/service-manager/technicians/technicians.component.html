@@ -1,3 +1,94 @@
-<p>
-  technicians works!
-</p>
+<label for="" style="font-size: 14pt">ข้อมูลผู้ใช้</label>
+<br>
+<br>
+<button class="btn btn-sm btn-success" (click)="openModalAddUser()">
+  <clr-icon shape="plus"></clr-icon> เพิ่มรายการ
+</button>
+<clr-datagrid>
+  <clr-dg-column style="width: 30px;">#</clr-dg-column>
+  <clr-dg-column>ชื่อ</clr-dg-column>
+  <clr-dg-column>นามสกุล</clr-dg-column>
+  <clr-dg-column>สถานะ</clr-dg-column>
+  <clr-dg-column>Username</clr-dg-column>
+  <clr-dg-column></clr-dg-column>
+
+  <clr-dg-row *ngFor="let u of users; let idx = index;">
+    <clr-dg-cell>{{idx + 1}}</clr-dg-cell>
+    <clr-dg-cell>{{u.first_name}}</clr-dg-cell>
+    <clr-dg-cell>{{u.last_name}}</clr-dg-cell>
+    <clr-dg-cell *ngIf="u.type==='2'">ผู้ดูแลระบบ</clr-dg-cell>
+    <clr-dg-cell *ngIf="u.type==='1'">ผู้ใช้งาน</clr-dg-cell>
+    <clr-dg-cell>{{u.username}}</clr-dg-cell>
+    <clr-dg-cell style="text-align: center;">
+      <div class="btn-group">
+        <button title="แก้ไข" class="btn btn-sm btn-icon btn-success" (click)="updateUser(u)">
+          <clr-icon shape="note"></clr-icon>
+        </button>
+        <button title="ลบ" class="btn btn-sm btn-icon btn-danger" (click)="removeUser(u)">
+          <clr-icon shape="trash"></clr-icon>
+        </button>
+      </div>
+    </clr-dg-cell>
+  </clr-dg-row>
+
+  <!-- <clr-dg-footer>{{users.length}} users</clr-dg-footer> -->
+</clr-datagrid>
+
+<clr-modal [(clrModalOpen)]="adduser" [clrModalClosable]="false">
+  <h3 class="modal-title">เพิ่มผู้ใช้งาน</h3>
+  <div class="modal-body">
+    <form>
+      <section class="form-block">
+        <label>ข้อมูลผู้ใช้งาน</label>
+        <div class="form-group row">
+          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <label class="required" for="firstName">ชื่อผู้ใช้งาน</label>
+          </div>
+          <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+            <input class="form-control" type="text" name="firstName" [(ngModel)]="firstName" placeholder="ชื่อผู้ใช้งาน">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <label class="required" for="lastName">นามสกุล</label>
+          </div>
+          <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+            <input class="form-control" type="text" name="lastName" [(ngModel)]="lastName" placeholder="นามสกุล">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <label class="required" for="userName">Username</label>
+          </div>
+          <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+            <input class="form-control" type="text" name="userName" [(ngModel)]="userName" placeholder="Username">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <label class="required" for="passWord">Password</label>
+          </div>
+          <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+            <input class="form-control" type="password" name="passWord" [(ngModel)]="passWord" placeholder="Password">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <label class="required" for="cpassWord">ยืนยัน Password</label>
+          </div>
+          <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+            <input class="form-control" type="password" name="cpassWord" [(ngModel)]="cpassWord" placeholder="ยืนยัน Password">
+          </div>
+        </div>
+        <div class="toggle-switch" style="float: right;">
+          <input type="checkbox" id="isActive" [checked]="isActive" name="isActive" (click)="setAdmin()">
+          <label for="isActive">Admin </label>
+        </div>
+      </section>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="adduser = false">ยกเลิก</button>
+    <button type="button" class="btn btn-primary" (click)="addUser()" [disabled]="!firstName || !lastName || !userName || !passWord || !cpassWord">บันทึก</button>
+  </div>
+</clr-modal>
