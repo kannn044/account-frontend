@@ -1,0 +1,18 @@
+<div class="login-wrapper">
+  <form class="login">
+    <section class="title">
+      <h3 class="welcome">Welcome to</h3>
+      MOPH Service Manager
+      <h5 class="hint">ระบบงานแจ้งซ่อมออนไลน์สำหรับหน่วยบริการสาธารณสุข</h5>
+    </section>
+    <div class="login-group">
+      <input class="username" type="text" [(ngModel)]="username" name="login_username" placeholder="ชื่อผู้ใช้งาน">
+      <input class="password" type="password" [(ngModel)]="password" name="login_password" placeholder="รหัสผ่าน">
+
+      <div class="error active" *ngIf="isError">
+        {{ errorMessage || 'เกิดข้อผิดพลาด'}}
+      </div>
+      <button type="button" [disabled]="!username || !password" (click)="doLogin()" class="btn btn-primary">เข้าใช้งานระบบ</button>
+    </div>
+  </form>
+</div>
