@@ -13,13 +13,14 @@ export class TechniciansComponent implements OnInit {
   adduser: boolean = false;
 
   userId: any;
-  firstName: any;
-  lastName: any;
   userName: any;
   passWord: any;
   cpassWord: any;
   isActive = false;
   isUpdate = false;
+
+  peoples: any;
+  peopleId: any;
 
   constructor(
     private userService: UsersService,
@@ -28,12 +29,22 @@ export class TechniciansComponent implements OnInit {
 
   ngOnInit() {
     this.getUsers();
+    this.getPeople();
   }
 
   async getUsers() {
     try {
       let rs: any = await this.userService.getUsers();
       this.users = rs.rows;
+    } catch (error) {
+      this.alertService.error();
+    }
+  }
+
+  async getPeople() {
+    try {
+      let rs: any = await this.userService.getPeoples();
+      this.peoples = rs.rows;
     } catch (error) {
       this.alertService.error();
     }
@@ -49,12 +60,11 @@ export class TechniciansComponent implements OnInit {
 
   async openModalAddUser() {
     this.adduser = true;
-    this.clearData();
+    await this.clearData();
   }
 
   async clearData() {
-    this.firstName = null;
-    this.lastName = null;
+    this.peopleId = null;
     this.userName = null;
     this.passWord = null;
     this.cpassWord = null;
@@ -71,8 +81,6 @@ export class TechniciansComponent implements OnInit {
           } else {
             const data = {
               user_id: this.userId,
-              first_name: this.firstName,
-              last_name: this.lastName,
               username: this.userName,
               password: this.passWord,
               type: this.isActive ? '2' : '1'
@@ -92,8 +100,7 @@ export class TechniciansComponent implements OnInit {
             this.alertService.error('ยืนยัน Password ไม่ถูกต้อง !')
           } else {
             const data = {
-              first_name: this.firstName,
-              last_name: this.lastName,
+              peopleId: this.peopleId,
               username: this.userName,
               password: this.passWord,
               type: this.isActive ? '2' : '1'
@@ -113,24 +120,27 @@ export class TechniciansComponent implements OnInit {
   }
 
   async updateUser(u) {
-    this.adduser = true;
     this.isUpdate = true;
-
-    this.userId = u.id;
-    this.firstName = u.first_name;
-    this.lastName = u.last_name;
+    this.userId = u.user_id;
+    this.peopleId = u.people_id;
     this.userName = u.username;
     this.isActive = u.type === '1' ? false : true;
+    this.adduser = true;
   }
 
   async removeUser(u) {
     this.alertService.confirm('คุณแน่ใจหรือไม่ ?')
       .then(async () => {
-        let rs = await this.userService.deleteUser(u.id);
+        let rs = await this.userService.deleteUser(u.user_id);
         if (rs) {
           this.alertService.success();
           this.getUsers();
         }
       }).catch(() => { })
+  }
+
+  async close(){
+    this.adduser = false;
+    await this.clearData();
   }
 }

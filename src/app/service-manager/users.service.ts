@@ -33,8 +33,7 @@ export class UsersService {
   saveUsers(data: any) {
     const _url = `${this.url}/users`;
     return this.http.post(_url, {
-      first_name: data.first_name,
-      last_name: data.last_name,
+      people_id: data.peopleId,
       username: data.username,
       password: data.password,
       type: data.type

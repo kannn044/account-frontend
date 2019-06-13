@@ -35,25 +35,22 @@
 </clr-datagrid>
 
 <clr-modal [(clrModalOpen)]="adduser" [clrModalClosable]="false">
-  <h3 class="modal-title">เพิ่มผู้ใช้งาน</h3>
+  <h3 class="modal-title" *ngIf="!isUpdate">เพิ่มผู้ใช้งาน</h3>
+  <h3 class="modal-title" *ngIf="isUpdate">แก้ไขผู้ใช้งาน</h3>
   <div class="modal-body">
     <form>
       <section class="form-block">
         <label>ข้อมูลผู้ใช้งาน</label>
         <div class="form-group row">
           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-            <label class="required" for="firstName">ชื่อผู้ใช้งาน</label>
+            <label class="required" for="name">ชื่อผู้ใช้งาน</label>
           </div>
           <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-            <input class="form-control" type="text" name="firstName" [(ngModel)]="firstName" placeholder="ชื่อผู้ใช้งาน">
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-            <label class="required" for="lastName">นามสกุล</label>
-          </div>
-          <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-            <input class="form-control" type="text" name="lastName" [(ngModel)]="lastName" placeholder="นามสกุล">
+            <div class="select">
+              <select [(ngModel)]="peopleId" name="peopleId" [disabled]="isUpdate">
+                <option [value]="p.people_id" *ngFor="let p of peoples">{{p.fname}} {{p.lname}}</option>
+              </select>
+            </div>
           </div>
         </div>
         <div class="form-group row">
@@ -77,7 +74,8 @@
             <label class="required" for="cpassWord">ยืนยัน Password</label>
           </div>
           <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-            <input class="form-control" type="password" name="cpassWord" [(ngModel)]="cpassWord" placeholder="ยืนยัน Password">
+            <input class="form-control" type="password" name="cpassWord" [(ngModel)]="cpassWord"
+              placeholder="ยืนยัน Password">
           </div>
         </div>
         <div class="toggle-switch" style="float: right;">
@@ -88,7 +86,8 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline" (click)="adduser = false">ยกเลิก</button>
-    <button type="button" class="btn btn-primary" (click)="addUser()" [disabled]="!firstName || !lastName || !userName || !passWord || !cpassWord">บันทึก</button>
+    <button type="button" class="btn btn-outline" (click)="close()">ยกเลิก</button>
+    <button type="button" class="btn btn-primary" (click)="addUser()"
+      [disabled]="!peopleId || !userName || !passWord || !cpassWord">บันทึก</button>
   </div>
 </clr-modal>
