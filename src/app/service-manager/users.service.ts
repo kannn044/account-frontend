@@ -15,6 +15,21 @@ export class UsersService {
     return this.http.get(_url).toPromise();
   }
 
+  getTitles() {
+    const _url = `${this.url}/users/titles`;
+    return this.http.get(_url).toPromise();
+  }
+
+  getPositions() {
+    const _url = `${this.url}/users/positions`;
+    return this.http.get(_url).toPromise();
+  }
+
+  getPeoples() {
+    const _url = `${this.url}/users/peoples`;
+    return this.http.get(_url).toPromise();
+  }
+
   saveUsers(data: any) {
     const _url = `${this.url}/users`;
     return this.http.post(_url, {
@@ -23,6 +38,28 @@ export class UsersService {
       username: data.username,
       password: data.password,
       type: data.type
+    }).toPromise();
+  }
+
+  saveTitles(titleName: any) {
+    const _url = `${this.url}/users/titles`;
+    return this.http.post(_url, {
+      title_name: titleName
+    }).toPromise();
+  }
+
+  savePositions(positionName: any) {
+    const _url = `${this.url}/users/positions`;
+    return this.http.post(_url, {
+      position_name: positionName
+    }).toPromise();
+  }
+
+  savePeoples(fname: any, lname: any) {
+    const _url = `${this.url}/users/people`;
+    return this.http.post(_url, {
+      fname: fname,
+      lname: lname
     }).toPromise();
   }
 
@@ -39,7 +76,32 @@ export class UsersService {
   }
 
   deleteUser(userId: any) {
-    const _url = `${this.url}/users/${userId}`;
+    const _url = `${this.url}/users/delete`;
+    return this.http.put(_url, { user_id: userId }).toPromise();
+  }
+
+  deleteTitles(Id: any) {
+    const _url = `${this.url}/users/delete/titles/${Id}`;
     return this.http.delete(_url).toPromise();
+  }
+
+  deletePositions(Id: any) {
+    const _url = `${this.url}/users/delete/positions/${Id}`;
+    return this.http.delete(_url).toPromise();
+  }
+
+  deletePeoples(Id: any) {
+    const _url = `${this.url}/users/delete/peoples/${Id}`;
+    return this.http.delete(_url).toPromise();
+  }
+
+  search(query: any) {
+    const _url = `${this.url}/users/search?query=${query}`;
+    return this.http.get(_url).toPromise();
+  }
+
+  searchPosition(query: any) {
+    const _url = `${this.url}/users/search/position?query=${query}`;
+    return this.http.get(_url).toPromise();
   }
 }

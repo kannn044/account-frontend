@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UsersService } from '../users.service';
+import { AlertService } from '../alert.service';
 
 @Component({
   selector: 'app-main',
@@ -7,9 +9,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainComponent implements OnInit {
 
-  constructor() { }
+  users: any;
+
+  constructor(
+    private userService: UsersService,
+    private alertService: AlertService
+  ) { }
 
   ngOnInit() {
+    this.getUsers();
   }
 
+  async getUsers() {
+    try {
+      let rs: any = await this.userService.getUsers();
+      this.users = rs.rows;
+    } catch (error) {
+      this.alertService.error();
+    }
+  }
 }

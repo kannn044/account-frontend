@@ -22,7 +22,7 @@ export class TechniciansComponent implements OnInit {
   isUpdate = false;
 
   constructor(
-    private usersService: UsersService,
+    private userService: UsersService,
     private alertService: AlertService
   ) { }
 
@@ -32,7 +32,7 @@ export class TechniciansComponent implements OnInit {
 
   async getUsers() {
     try {
-      let rs: any = await this.usersService.getUsers();
+      let rs: any = await this.userService.getUsers();
       this.users = rs.rows;
     } catch (error) {
       this.alertService.error();
@@ -59,7 +59,6 @@ export class TechniciansComponent implements OnInit {
     this.passWord = null;
     this.cpassWord = null;
     this.isActive = false;
-    this.adduser = false;
     this.isUpdate = false;
   }
 
@@ -78,11 +77,14 @@ export class TechniciansComponent implements OnInit {
               password: this.passWord,
               type: this.isActive ? '2' : '1'
             }
-            let rs = await this.usersService.updateUsers(data);
-            if (rs) {
+            let rs: any = await this.userService.updateUsers(data);
+            if (rs.ok) {
               this.alertService.success();
               this.getUsers();
               this.clearData();
+              this.adduser = false;
+            } else {
+              this.alertService.error('Username ซ้ำ');
             }
           }
         } else {
@@ -96,11 +98,14 @@ export class TechniciansComponent implements OnInit {
               password: this.passWord,
               type: this.isActive ? '2' : '1'
             }
-            let rs = await this.usersService.saveUsers(data);
-            if (rs) {
+            let rs: any = await this.userService.saveUsers(data);
+            if (rs.ok) {
               this.alertService.success();
               this.getUsers();
               this.clearData();
+              this.adduser = false;
+            } else {
+              this.alertService.error('Username ซ้ำ');
             }
           }
         }
@@ -121,8 +126,8 @@ export class TechniciansComponent implements OnInit {
   async removeUser(u) {
     this.alertService.confirm('คุณแน่ใจหรือไม่ ?')
       .then(async () => {
-        let rs = await this.usersService.deleteUser(u.id);
-        if(rs) {
+        let rs = await this.userService.deleteUser(u.id);
+        if (rs) {
           this.alertService.success();
           this.getUsers();
         }

@@ -1,3 +1,50 @@
-<p>
-  main works!
-</p>
+<label for="" style="font-size: 14pt">จัดการข้อมูลบุคลากร</label>
+<br>
+<clr-tabs>
+  <clr-tab>
+    <button clrTabLink id="link1">รายชื่อบุคลากร</button>
+    <clr-tab-content *clrIfActive="true">
+      <clr-datagrid>
+        <clr-dg-column style="width: 30px;">#</clr-dg-column>
+        <clr-dg-column>ชื่อ</clr-dg-column>
+        <clr-dg-column>นามสกุล</clr-dg-column>
+        <clr-dg-column>สถานะ</clr-dg-column>
+        <clr-dg-column>Username</clr-dg-column>
+        <clr-dg-column></clr-dg-column>
+
+        <clr-dg-row *ngFor="let u of users; let idx = index;">
+          <clr-dg-cell>{{idx + 1}}</clr-dg-cell>
+          <clr-dg-cell>{{u.first_name}}</clr-dg-cell>
+          <clr-dg-cell>{{u.last_name}}</clr-dg-cell>
+          <clr-dg-cell *ngIf="u.type==='2'">ผู้ดูแลระบบ</clr-dg-cell>
+          <clr-dg-cell *ngIf="u.type==='1'">ผู้ใช้งาน</clr-dg-cell>
+          <clr-dg-cell>{{u.username}}</clr-dg-cell>
+          <clr-dg-cell style="text-align: center;">
+            <div class="btn-group">
+              <button title="แก้ไข" class="btn btn-sm btn-icon btn-success" (click)="updateUser(u)">
+                <clr-icon shape="note"></clr-icon>
+              </button>
+              <button title="ลบ" class="btn btn-sm btn-icon btn-danger" (click)="removeUser(u)">
+                <clr-icon shape="trash"></clr-icon>
+              </button>
+            </div>
+          </clr-dg-cell>
+        </clr-dg-row>
+
+        <!-- <clr-dg-footer>{{users.length}} users</clr-dg-footer> -->
+      </clr-datagrid>
+    </clr-tab-content>
+  </clr-tab>
+  <clr-tab>
+    <button clrTabLink id="link2">นำเข้า Excel เงินเดือน</button>
+    <clr-tab-content id="content1" *clrIfActive>
+      ...
+    </clr-tab-content>
+  </clr-tab>
+  <clr-tab>
+    <button clrTabLink>นำเข้า Excel ค่าตอบแทน</button>
+    <clr-tab-content id="content2" *clrIfActive>
+      ...
+    </clr-tab-content>
+  </clr-tab>
+</clr-tabs>

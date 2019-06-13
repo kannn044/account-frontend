@@ -11,6 +11,9 @@ import { CustomersComponent } from './customers/customers.component';
 import { AdminGuard } from '../admin-guard';
 import { UsersService } from './users.service';
 import { AlertService } from './alert.service';
+import { TitlesComponent } from './titles/titles.component';
+import { PositionsComponent } from './positions/positions.component';
+import { PeoplesComponent } from './peoples/peoples.component';
 
 @NgModule({
   imports: [
@@ -23,7 +26,7 @@ import { AlertService } from './alert.service';
     MainComponent, 
     LayoutComponent, 
     TechniciansComponent, 
-    CustomersComponent
+    CustomersComponent, TitlesComponent, PositionsComponent, PeoplesComponent
   ],
   providers: [
     AdminGuard,

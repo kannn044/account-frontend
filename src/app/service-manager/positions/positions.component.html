@@ -1,0 +1,41 @@
+<span class="label" for="" style="font-size: 14pt">ตำแหน่ง</span>
+<br>
+<br>
+<div class="row">
+    <div class="col-lg-1 col-md-1 col-sm-6 col-xs-6">เพิ่มรายการ</div>
+  <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+    <input style="width: 100%" class="form-control" type="text" name="positionName" [(ngModel)]="positionName" placeholder="ตำแหน่ง">
+  </div>
+  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+    <button class="btn btn-sm btn-success" [disabled]="!positionName" (click)="add()">
+      <clr-icon shape="plus"></clr-icon> เพิ่ม
+    </button>
+  </div>
+</div>
+<div class="row">
+    <div class="col-lg-1 col-md-1 col-sm-6 col-xs-6">ค้นหา</div>
+    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+      <input style="width: 100%" class="form-control" type="text" (keyup)="search()" name="query" [(ngModel)]="query"
+        placeholder="ค้นหาตำแหน่ง">
+    </div>
+  </div>
+<clr-datagrid>
+  <clr-dg-column style="width: 30px;">#</clr-dg-column>
+  <clr-dg-column>ตำแหน่ง</clr-dg-column>
+  <clr-dg-column></clr-dg-column>
+
+  <clr-dg-row *ngFor="let t of positions; let idx = index;">
+    <clr-dg-cell>{{idx + 1}}</clr-dg-cell>
+    <clr-dg-cell>{{t.position_name}}</clr-dg-cell>
+    <clr-dg-cell style="text-align: center;">
+      <div class="btn-group">
+        <!-- <button title="แก้ไข" class="btn btn-sm btn-icon btn-success" (click)="update(t)">
+          <clr-icon shape="note"></clr-icon>
+        </button> -->
+        <button title="ลบ" class="btn btn-sm btn-icon btn-danger" (click)="remove(t)">
+          <clr-icon shape="trash"></clr-icon>
+        </button>
+      </div>
+    </clr-dg-cell>
+  </clr-dg-row>
+</clr-datagrid>

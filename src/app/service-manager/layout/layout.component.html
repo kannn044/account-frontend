@@ -26,7 +26,7 @@
     <clr-vertical-nav [clrVerticalNavCollapsible]="collapsible" [(clrVerticalNavCollapsed)]="collapse">
       <a clrVerticalNavLink routerLink="/sm/main" title="รายการแจ้งซ่อม" routerLinkActive="active">
         <clr-icon clrVerticalNavIcon shape="note" class="has-badge is-solid"></clr-icon>
-        รายการแจ้งซ่อม
+        หน้าหลัก
       </a>
 
       <clr-vertical-nav-group routerLinkActive="active">
@@ -38,6 +38,18 @@
           <a clrVerticalNavLink routerLink="/sm/technicians" routerLinkActive="active">
             <clr-icon shape="library"></clr-icon>
             ข้อมูลผู้ใช้
+          </a>
+          <a clrVerticalNavLink routerLink="/sm/titles" routerLinkActive="active">
+            <clr-icon shape="library"></clr-icon>
+            คำนำหน้า
+          </a>
+          <a clrVerticalNavLink routerLink="/sm/positions" routerLinkActive="active">
+            <clr-icon shape="library"></clr-icon>
+            ตำแหน่ง
+          </a>
+          <a clrVerticalNavLink routerLink="/sm/peoples" routerLinkActive="active">
+            <clr-icon shape="library"></clr-icon>
+            รายชื่อบุคลากร
           </a>
         </clr-vertical-nav-group-children>
       </clr-vertical-nav-group>

@@ -7,6 +7,9 @@ import { TechniciansComponent } from './technicians/technicians.component';
 import { CustomersComponent } from './customers/customers.component';
 // import { AuthGuard } from '../auth-guard.service';
 import { AdminGuard } from '../admin-guard';
+import { TitlesComponent } from './titles/titles.component';
+import { PositionsComponent } from './positions/positions.component';
+import { PeoplesComponent } from './peoples/peoples.component';
 
 const routes: Routes = [
   {
@@ -17,6 +20,9 @@ const routes: Routes = [
       { path: '', redirectTo: 'main', pathMatch: 'full' },
       { path: 'main', component: MainComponent },
       { path: 'technicians', component: TechniciansComponent },
+      { path: 'titles', component: TitlesComponent },
+      { path: 'positions', component: PositionsComponent },
+      { path: 'peoples', component: PeoplesComponent },
       { path: 'customers', component: CustomersComponent },
       { path: '**', component: PageNotFoundComponent },
     ]
