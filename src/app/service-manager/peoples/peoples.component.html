@@ -1,20 +1,63 @@
 <span class="label" for="" style="font-size: 14pt">บุคลากร</span>
 <br>
 <br>
-<div class="row">
-  <div class="col-lg-1 col-md-1 col-sm-6 col-xs-6">เพิ่มรายการ</div>
-  <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
-    <input style="width: 100%" class="form-control" type="text" name="fname" [(ngModel)]="fname" placeholder="ชื่อ">
+<button class="btn btn-sm btn-success" (click)="openModalAddUser()">
+    <clr-icon shape="plus"></clr-icon> เพิ่มรายการ
+  </button>
+<!-- <div class="clr-row">
+  <div class="clr-col-lg-5 clr-col-md-8 clr-col-12">
+    <div class="card">
+      <div class="card-block">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">คำนำหน้าชื่อ</div>
+          <div class="col-lg-8 col-md-1 col-sm-4 col-xs-4">
+            <div class="select">
+              <select [(ngModel)]="titleId" name="titleId">
+                <option [value]="p.title_id" *ngFor="let p of titles">{{p.title_name}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">ชื่อ</div>
+          <div class="col-lg-8 col-md-2 col-sm-6 col-xs-6">
+            <input style="width: 100%" class="form-control" type="text" name="fname" [(ngModel)]="fname"
+              placeholder="ชื่อ">
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">นามสกุล</div>
+          <div class="col-lg-8 col-md-2 col-sm-6 col-xs-6">
+            <input style="width: 100%" class="form-control" type="text" name="lname" [(ngModel)]="lname"
+              placeholder="นามสกุล">
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">ตำแหน่ง</div>
+          <div class="col-lg-8 col-md-2 col-sm-6 col-xs-6">
+            <div class="select">
+              <select [(ngModel)]="positionId" name="positionId">
+                <option [value]="p.position_id" *ngFor="let p of positions">{{p.position_name}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 push-lg-6">
+            <button class="btn btn-sm btn-success" [disabled]="!fname || !lname || !positionId || !titleId"
+              (click)="add()">
+              <clr-icon shape="plus"></clr-icon> เพิ่ม
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
-    <input style="width: 100%" class="form-control" type="text" name="lname" [(ngModel)]="lname" placeholder="นามสกุล">
-  </div>
-  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-    <button class="btn btn-sm btn-success" [disabled]="!fname || !lname" (click)="add()">
-      <clr-icon shape="plus"></clr-icon> เพิ่ม
-    </button>
-  </div>
-</div>
+</div> -->
 <div class="row">
   <div class="col-lg-1 col-md-1 col-sm-6 col-xs-6">ค้นหา</div>
   <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
@@ -25,11 +68,13 @@
 <clr-datagrid>
   <clr-dg-column style="width: 30px;">#</clr-dg-column>
   <clr-dg-column>ชื่อ-นามสกุล</clr-dg-column>
+  <clr-dg-column>ตำแหน่ง</clr-dg-column>
   <clr-dg-column></clr-dg-column>
 
   <clr-dg-row *ngFor="let t of peoples; let idx = index;">
     <clr-dg-cell>{{idx + 1}}</clr-dg-cell>
     <clr-dg-cell>{{t.fname}} {{t.lname}}</clr-dg-cell>
+    <clr-dg-cell>{{t.position_name}}</clr-dg-cell>
     <clr-dg-cell style="text-align: center;">
       <div class="btn-group">
         <!-- <button title="แก้ไข" class="btn btn-sm btn-icon btn-success" (click)="update(t)">
@@ -42,3 +87,56 @@
     </clr-dg-cell>
   </clr-dg-row>
 </clr-datagrid>
+
+<clr-modal [(clrModalOpen)]="adduser" [clrModalClosable]="false">
+  <h3 class="modal-title" *ngIf="!isUpdate">เพิ่มบุคลากร</h3>
+  <h3 class="modal-title" *ngIf="isUpdate">แก้ไขบุคลากร</h3>
+  <div class="modal-body">
+    <form>
+      <section class="form-block">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">คำนำหน้าชื่อ</div>
+            <div class="col-lg-8 col-md-1 col-sm-4 col-xs-4">
+              <div class="select">
+                <select [(ngModel)]="titleId" name="titleId">
+                  <option [value]="p.title_id" *ngFor="let p of titles">{{p.title_name}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">ชื่อ</div>
+            <div class="col-lg-8 col-md-2 col-sm-6 col-xs-6">
+              <input style="width: 100%" class="form-control" type="text" name="fname" [(ngModel)]="fname"
+                placeholder="ชื่อ">
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">นามสกุล</div>
+            <div class="col-lg-8 col-md-2 col-sm-6 col-xs-6">
+              <input style="width: 100%" class="form-control" type="text" name="lname" [(ngModel)]="lname"
+                placeholder="นามสกุล">
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">ตำแหน่ง</div>
+            <div class="col-lg-8 col-md-2 col-sm-6 col-xs-6">
+              <div class="select">
+                <select [(ngModel)]="positionId" name="positionId">
+                  <option [value]="p.position_id" *ngFor="let p of positions">{{p.position_name}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+      </section>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="close()">ยกเลิก</button>
+    <button type="button" class="btn btn-primary" (click)="add()"
+      [disabled]="!titleId || !positionId || !fname || !lname">บันทึก</button>
+  </div>
+</clr-modal>

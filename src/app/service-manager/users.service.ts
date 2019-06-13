@@ -54,11 +54,13 @@ export class UsersService {
     }).toPromise();
   }
 
-  savePeoples(fname: any, lname: any) {
+  savePeoples(fname: any, lname: any, position_id: any, title_id: any) {
     const _url = `${this.url}/users/people`;
     return this.http.post(_url, {
       fname: fname,
-      lname: lname
+      lname: lname,
+      position_id: position_id,
+      title_id: title_id
     }).toPromise();
   }
 

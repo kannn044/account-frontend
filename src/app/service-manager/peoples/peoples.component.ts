@@ -12,6 +12,12 @@ export class PeoplesComponent implements OnInit {
   fname: any;
   lname: any;
   query: any;
+  positions: any;
+  titles: any;
+  positionId: any;
+  titleId: any;
+  isUpdate = false;
+  adduser = false;
 
   constructor(
     private userService: UsersService,
@@ -20,6 +26,8 @@ export class PeoplesComponent implements OnInit {
 
   ngOnInit() {
     this.getPeoples();
+    this.getPositions();
+    this.getTitles();
   }
 
   async getPeoples() {
@@ -31,14 +39,40 @@ export class PeoplesComponent implements OnInit {
     }
   }
 
+  async getPositions() {
+    try {
+      let rs: any = await this.userService.getPositions();
+      this.positions = rs.rows;
+    } catch (error) {
+      this.alertService.error();
+    }
+  }
+
+  async getTitles() {
+    try {
+      let rs: any = await this.userService.getTitles();
+      this.titles = rs.rows;
+    } catch (error) {
+      this.alertService.error();
+    }
+  }
+
+  clearData() {
+    this.fname = null;
+    this.lname = null;
+    this.positionId = null;
+    this.titleId = null;
+    this.query = null;
+  }
+
   async add() {
     try {
-      let rs: any = await this.userService.savePeoples(this.fname, this.lname);
+      let rs: any = await this.userService.savePeoples(this.fname, this.lname, this.positionId, this.titleId);
       if (rs.ok) {
         this.alertService.success();
-        this.fname = null;
-        this.lname = null;
         this.getPeoples();
+        this.clearData();
+        this.adduser = false;
       } else {
         this.alertService.error();
       }
@@ -55,8 +89,11 @@ export class PeoplesComponent implements OnInit {
           if (rs.ok) {
             this.alertService.success();
             this.getPeoples();
+            this.clearData();
           }
-        }).catch((error) => { })
+        }).catch((error) => {
+          this.alertService.error();
+        })
     } catch (error) {
 
     }
@@ -65,13 +102,20 @@ export class PeoplesComponent implements OnInit {
   async search() {
     try {
       let rs: any = await this.userService.search(this.query);
-      console.log(rs);
-      
       if (rs.ok) {
         this.peoples = rs.rows;
       }
     } catch (error) {
-
+      this.alertService.error();
     }
+  }
+
+  openModalAddUser() {
+    this.adduser = true;
+  }
+
+  close() {
+    this.adduser = false;
+    this.clearData();
   }
 }
