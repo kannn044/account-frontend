@@ -38,13 +38,61 @@
   <clr-tab>
     <button clrTabLink id="link2">นำเข้า Excel เงินเดือน</button>
     <clr-tab-content id="content1" *clrIfActive>
-      ...
+      <br>
+      <div class="form-group row wid99">
+        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+          <label for="salaryDate" class="required">วันที่</label>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+          <my-date-picker-th name="salaryDate" [options]="myDatePickerOptions" [(ngModel)]="salaryDate" required>
+          </my-date-picker-th>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+          <button class="btn btn-sm btn-success" (click)="showUploadModal()">
+            <clr-icon shape="upload-cloud"></clr-icon> อัปโหลดไฟล์
+          </button>
+        </div>
+      </div>
     </clr-tab-content>
   </clr-tab>
   <clr-tab>
     <button clrTabLink>นำเข้า Excel ค่าตอบแทน</button>
     <clr-tab-content id="content2" *clrIfActive>
-      ...
+
     </clr-tab-content>
   </clr-tab>
 </clr-tabs>
+
+<clr-modal [(clrModalOpen)]="openUploadSalary" [clrModalClosable]="false">
+  <h3 class="modal-title">อัปโหลดไฟล์</h3>
+  <div class="modal-body">
+    <p>เลือกไฟล์ที่ต้องการอัปโหลดโดยเลือกไฟล์ .xls, xlsx เท่านั้น</p>
+    <form>
+      <section class="form-block">
+        <div class="form-group row">
+          <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+            <input class="form-control" disabled type="text" id="txtFile" placeholder="..." [value]="fileName">
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+            <div>
+              <label class="btn btn-sm btn-success btn-link wm-small-btn">
+                <input type="file" #file
+                  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                  style="display: none;" (change)="fileChangeEvent($event)">
+                <clr-icon shape="search"></clr-icon>
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-primary" [disabled]="!fileName" (click)="doUpload()">
+      อัปโหลดไฟล์
+    </button>
+    <button type="button" class="btn btn-sm btn-danger" (click)="openUploadSalary = false">
+      ปิด/ยกเลิก
+    </button>
+  </div>
+</clr-modal>

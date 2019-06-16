@@ -14,13 +14,16 @@ import { AlertService } from './alert.service';
 import { TitlesComponent } from './titles/titles.component';
 import { PositionsComponent } from './positions/positions.component';
 import { PeoplesComponent } from './peoples/peoples.component';
+import { MyDatePickerTHModule } from 'mydatepicker-th';
+import { ImportService } from './import.service';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     ClarityModule,
-    ServiceManagerRoutingModule
+    ServiceManagerRoutingModule,
+    MyDatePickerTHModule
   ],
   declarations: [
     MainComponent, 
@@ -31,7 +34,8 @@ import { PeoplesComponent } from './peoples/peoples.component';
   providers: [
     AdminGuard,
     UsersService,
-    AlertService
+    AlertService,
+    ImportService
   ]
 })
 export class ServiceManagerModule { }
