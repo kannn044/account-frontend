@@ -4,31 +4,32 @@
   <clr-tab>
     <button clrTabLink id="link1">รายชื่อบุคลากร</button>
     <clr-tab-content *clrIfActive="true">
-      <clr-datagrid>
+      <br>
+      <div class="row">
+        <div class="col-lg-1 col-md-1 col-sm-6 col-xs-6">ค้นหา</div>
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+          <input style="width: 100%" class="form-control" type="text" (keyup)="search()" name="query"
+            [(ngModel)]="query" placeholder="ค้นหาชื่อ-นามสกุล">
+        </div>
+        <div class="col-lg-7 col-md-2 col-sm-6 col-xs-6"></div>
+        <button class="btn btn-sm btn-success" (click)="exportSalary()">
+          <clr-icon shape="export"></clr-icon> Export Excel
+        </button>
+      </div>
+      <clr-datagrid [(clrDgSelected)]="selectedPeoples">
         <clr-dg-column style="width: 30px;">#</clr-dg-column>
         <clr-dg-column>ชื่อ</clr-dg-column>
         <clr-dg-column>นามสกุล</clr-dg-column>
         <clr-dg-column>สถานะ</clr-dg-column>
         <clr-dg-column>Username</clr-dg-column>
-        <clr-dg-column></clr-dg-column>
 
-        <clr-dg-row *ngFor="let u of users; let idx = index;">
+        <clr-dg-row *ngFor="let u of users; let idx = index;" [clrDgItem]="u">
           <clr-dg-cell>{{idx + 1}}</clr-dg-cell>
-          <clr-dg-cell>{{u.first_name}}</clr-dg-cell>
-          <clr-dg-cell>{{u.last_name}}</clr-dg-cell>
+          <clr-dg-cell>{{u.fname}}</clr-dg-cell>
+          <clr-dg-cell>{{u.lname}}</clr-dg-cell>
           <clr-dg-cell *ngIf="u.type==='2'">ผู้ดูแลระบบ</clr-dg-cell>
           <clr-dg-cell *ngIf="u.type==='1'">ผู้ใช้งาน</clr-dg-cell>
           <clr-dg-cell>{{u.username}}</clr-dg-cell>
-          <clr-dg-cell style="text-align: center;">
-            <div class="btn-group">
-              <button title="แก้ไข" class="btn btn-sm btn-icon btn-success" (click)="updateUser(u)">
-                <clr-icon shape="note"></clr-icon>
-              </button>
-              <button title="ลบ" class="btn btn-sm btn-icon btn-danger" (click)="removeUser(u)">
-                <clr-icon shape="trash"></clr-icon>
-              </button>
-            </div>
-          </clr-dg-cell>
         </clr-dg-row>
 
         <!-- <clr-dg-footer>{{users.length}} users</clr-dg-footer> -->
@@ -39,7 +40,7 @@
     <button clrTabLink id="link2">นำเข้า Excel เงินเดือน</button>
     <clr-tab-content id="content1" *clrIfActive>
       <br>
-      <div class="form-group row wid99">
+      <div class="row">
         <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
           <label for="salaryDate" class="required">วันที่</label>
         </div>
@@ -47,11 +48,109 @@
           <my-date-picker-th name="salaryDate" [options]="myDatePickerOptions" [(ngModel)]="salaryDate" required>
           </my-date-picker-th>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+        <div class="col-lg-6 col-md-2 col-sm-12 col-xs-12">
+          <button class="btn btn-sm btn-success" (click)="getUserSalary()">
+            <clr-icon shape="search"></clr-icon> ค้นหา
+          </button>
+        </div>
+        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+            <button class="btn btn-sm btn-primary" (click)="printSalary()" [disabled]="!selectedPeoplesSalary.length">
+              <clr-icon shape="printer"></clr-icon> พิมพ์ที่เลือก
+            </button>
+          </div>
+        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
           <button class="btn btn-sm btn-success" (click)="showUploadModal()">
             <clr-icon shape="upload-cloud"></clr-icon> อัปโหลดไฟล์
           </button>
         </div>
+        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+          <button class="btn btn-sm btn-danger" (click)="removeAll()">
+            <clr-icon shape="trash"></clr-icon> ลบข้อมูล
+          </button>
+        </div>
+      </div>
+
+      <div class="row">
+        <clr-datagrid [style.height.%]="100" [style.width.%]="100" [(clrDgSelected)]="selectedPeoplesSalary">
+          <clr-dg-column></clr-dg-column>
+          <clr-dg-column>ชื่อ-นามสกุล</clr-dg-column>
+          <clr-dg-column>ค่าจ้าง</clr-dg-column>
+          <clr-dg-column>ปกส</clr-dg-column>
+          <clr-dg-column>ค่าจ้างตกเบิก</clr-dg-column>
+          <clr-dg-column>ปกส ตกเบิก</clr-dg-column>
+          <clr-dg-column>ค่าจ้างพิเศษ</clr-dg-column>
+          <clr-dg-column>ชันสูตร</clr-dg-column>
+          <clr-dg-column>ค่าเล่าเรียน</clr-dg-column>
+          <clr-dg-column>ไข้นอกรัฐ</clr-dg-column>
+          <clr-dg-column>ไข้ในเอกชน</clr-dg-column>
+          <clr-dg-column>ไข้นอกเอกชน</clr-dg-column>
+          <clr-dg-column>ฉ 11 ขรก</clr-dg-column>
+          <clr-dg-column>ฉ 11 ลูกจ้าง</clr-dg-column>
+          <clr-dg-column>พตส ข้าราชการ</clr-dg-column>
+          <clr-dg-column>รับอื่นๆ</clr-dg-column>
+          <clr-dg-column>ภาษี</clr-dg-column>
+          <clr-dg-column>กลุ่มลูกจ้าง</clr-dg-column>
+          <clr-dg-column>AIA1</clr-dg-column>
+          <clr-dg-column>AIA2</clr-dg-column>
+          <clr-dg-column>AIA3</clr-dg-column>
+          <clr-dg-column>ฌกส</clr-dg-column>
+          <clr-dg-column>สหกรณ์สมทบ</clr-dg-column>
+          <clr-dg-column>ธกส</clr-dg-column>
+          <clr-dg-column>จ่ายอื่นๆ</clr-dg-column>
+          <clr-dg-column>สหกรณ์ รพ</clr-dg-column>
+          <clr-dg-column>หักออมสิน</clr-dg-column>
+          <clr-dg-column>เงืนกู้สหกรณ์</clr-dg-column>
+          <clr-dg-column>หักส่ง พกส ตกเบิก</clr-dg-column>
+          <clr-dg-column>หักส่ง พกส</clr-dg-column>
+          <clr-dg-column>ค่าธรรมเนียม พกส</clr-dg-column>
+          <clr-dg-column>ชมรม ฟุตบอล</clr-dg-column>
+          <clr-dg-column>ทัศนาทัวร์</clr-dg-column>
+          <clr-dg-column>ค่าตอบแทนงบด่าน</clr-dg-column>
+          <clr-dg-column>รับจริง</clr-dg-column>
+          <clr-dg-column style="width: 50px;">เลขที่บัญชี</clr-dg-column>
+
+          <clr-dg-row *ngFor="let u of usersSalary; let idx = index;" [clrDgItem]="u">
+            <clr-dg-cell>
+              <button class="btn btn-sm btn-primary" (click)="printSalary()">
+                <clr-icon shape="printer"></clr-icon> พิมพ์
+              </button></clr-dg-cell>
+            <clr-dg-cell>{{u.fname}} {{u.lname}}</clr-dg-cell>
+            <clr-dg-cell>{{u.salary}}</clr-dg-cell>
+            <clr-dg-cell>{{u.pgs}}</clr-dg-cell>
+            <clr-dg-cell>{{u.salary_past}}</clr-dg-cell>
+            <clr-dg-cell>{{u.pgs_past}}</clr-dg-cell>
+            <clr-dg-cell>{{u.s_salary}}</clr-dg-cell>
+            <clr-dg-cell>{{u.identify}}</clr-dg-cell>
+            <clr-dg-cell>{{u.study}}</clr-dg-cell>
+            <clr-dg-cell>{{u.s_out}}</clr-dg-cell>
+            <clr-dg-cell>{{u.c_in}}</clr-dg-cell>
+            <clr-dg-cell>{{u.c_out}}</clr-dg-cell>
+            <clr-dg-cell>{{u.ch11_k}}</clr-dg-cell>
+            <clr-dg-cell>{{u.ch11_emp}}</clr-dg-cell>
+            <clr-dg-cell>{{u.pts_off}}</clr-dg-cell>
+            <clr-dg-cell>{{u.other}}</clr-dg-cell>
+            <clr-dg-cell>{{u.tax}}</clr-dg-cell>
+            <clr-dg-cell>{{u.emp_group}}</clr-dg-cell>
+            <clr-dg-cell>{{u.aia1}}</clr-dg-cell>
+            <clr-dg-cell>{{u.aia2}}</clr-dg-cell>
+            <clr-dg-cell>{{u.aia3}}</clr-dg-cell>
+            <clr-dg-cell>{{u.ch_k_s}}</clr-dg-cell>
+            <clr-dg-cell>{{u.cprt}}</clr-dg-cell>
+            <clr-dg-cell>{{u.tks}}</clr-dg-cell>
+            <clr-dg-cell>{{u.other_p}}</clr-dg-cell>
+            <clr-dg-cell>{{u.cprt_hosp}}</clr-dg-cell>
+            <clr-dg-cell>{{u.bank}}</clr-dg-cell>
+            <clr-dg-cell>{{u.re_cprt}}</clr-dg-cell>
+            <clr-dg-cell>{{u.p_pgs_past}}</clr-dg-cell>
+            <clr-dg-cell>{{u.p_pgs}}</clr-dg-cell>
+            <clr-dg-cell>{{u.fee_pgs}}</clr-dg-cell>
+            <clr-dg-cell>{{u.football}}</clr-dg-cell>
+            <clr-dg-cell>{{u.tour}}</clr-dg-cell>
+            <clr-dg-cell>{{u.cpt}}</clr-dg-cell>
+            <clr-dg-cell>{{u.sum}}</clr-dg-cell>
+            <clr-dg-cell>{{u.account}}</clr-dg-cell>
+          </clr-dg-row>
+        </clr-datagrid>
       </div>
     </clr-tab-content>
   </clr-tab>
@@ -96,3 +195,5 @@
     </button>
   </div>
 </clr-modal>
+
+<wm-html-preview #htmlPreview></wm-html-preview>

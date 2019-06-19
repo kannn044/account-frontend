@@ -4,6 +4,13 @@
 <button class="btn btn-sm btn-success" (click)="openModalAddUser()">
   <clr-icon shape="plus"></clr-icon> เพิ่มรายการ
 </button>
+<div class="row">
+  <div class="col-lg-1 col-md-1 col-sm-6 col-xs-6">ค้นหา</div>
+  <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+    <input style="width: 100%" class="form-control" type="text" (keyup)="search()" name="query" [(ngModel)]="query"
+      placeholder="ค้นหาชื่อ-นามสกุล">
+  </div>
+</div>
 <clr-datagrid>
   <clr-dg-column style="width: 30px;">#</clr-dg-column>
   <clr-dg-column>ชื่อ-นามสกุล</clr-dg-column>

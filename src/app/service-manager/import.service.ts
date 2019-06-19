@@ -14,7 +14,16 @@ export class ImportService {
     this.token = sessionStorage.getItem('token');
   }
 
-  importSalary(files: File) {
+  exportSalary(pIds: any) {
+    const peopleIds: any = [];
+    pIds.forEach(e => {
+      peopleIds.push('pid=' + e);
+    });
+    const url = `${this.url}/import/export/salary?` + peopleIds.join('&');
+    return this.http.get(url).toPromise();
+  }
+
+  importSalary(files: File, date: any) {
     return new Promise((resolve, reject) => {
       const formData: any = new FormData();
       const xhr = new XMLHttpRequest();
@@ -30,7 +39,7 @@ export class ImportService {
         }
       };
 
-      const url = `${this.url}/import/salary?token=${this.token}`;
+      const url = `${this.url}/import/salary?token=${this.token}&date=${date}`;
       xhr.open("POST", url, true);
       xhr.send(formData);
     });

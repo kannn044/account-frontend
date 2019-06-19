@@ -30,6 +30,16 @@ export class UsersService {
     return this.http.get(_url).toPromise();
   }
 
+  getPeoplesSalary(date: any) {
+    const _url = `${this.url}/users/salary?date=${date}`;
+    return this.http.get(_url).toPromise();
+  }
+
+  getPeoplesSalarySearch(date: any, query: any) {
+    const _url = `${this.url}/users/salary/search?date=${date}&query=${query}`;
+    return this.http.get(_url).toPromise();
+  }
+
   saveUsers(data: any) {
     const _url = `${this.url}/users`;
     return this.http.post(_url, {
@@ -104,5 +114,15 @@ export class UsersService {
   searchPosition(query: any) {
     const _url = `${this.url}/users/search/position?query=${query}`;
     return this.http.get(_url).toPromise();
+  }
+
+  searchInfo(query: any) {
+    const _url = `${this.url}/users/search/info?query=${query}`;
+    return this.http.get(_url).toPromise();
+  }
+
+  removeSalary(date: any) {
+    const _url = `${this.url}/users/delete/salary?date=${date}`;
+    return this.http.delete(_url).toPromise();
   }
 }

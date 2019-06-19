@@ -16,6 +16,7 @@ import { PositionsComponent } from './positions/positions.component';
 import { PeoplesComponent } from './peoples/peoples.component';
 import { MyDatePickerTHModule } from 'mydatepicker-th';
 import { ImportService } from './import.service';
+import { HelperModule } from '../helper.module';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { ImportService } from './import.service';
     FormsModule,
     ClarityModule,
     ServiceManagerRoutingModule,
-    MyDatePickerTHModule
+    MyDatePickerTHModule,
+    HelperModule
   ],
   declarations: [
     MainComponent, 

@@ -19,8 +19,8 @@ export class TechniciansComponent implements OnInit {
   isActive = false;
   isUpdate = false;
 
-  peoples: any;
   peopleId: any;
+  query: any;
 
   constructor(
     private userService: UsersService,
@@ -29,22 +29,23 @@ export class TechniciansComponent implements OnInit {
 
   ngOnInit() {
     this.getUsers();
-    this.getPeople();
+  }
+
+  async search() {
+    try {
+      let rs: any = await this.userService.searchInfo(this.query);
+      if (rs.ok) {
+        this.users = rs.rows;
+      }
+    } catch (error) {
+      this.alertService.error();
+    }
   }
 
   async getUsers() {
     try {
       let rs: any = await this.userService.getUsers();
       this.users = rs.rows;
-    } catch (error) {
-      this.alertService.error();
-    }
-  }
-
-  async getPeople() {
-    try {
-      let rs: any = await this.userService.getPeoples();
-      this.peoples = rs.rows;
     } catch (error) {
       this.alertService.error();
     }
@@ -139,7 +140,7 @@ export class TechniciansComponent implements OnInit {
       }).catch(() => { })
   }
 
-  async close(){
+  async close() {
     this.adduser = false;
     await this.clearData();
   }
